@@ -1,3 +1,6 @@
+const fs = require('fs');
+const path = require('path');
+
 const Model = require('../models/user');
 const bcryptjs = require('bcryptjs');
 const jwt = require('../services/jwt');
@@ -48,8 +51,71 @@ function protected(req, res) {
     res.status(200).send({ msg: 'contenido del endpoint protegido' });
 }
 
+function uploadAvatar(req, res) {
+    const params = req.params;
+
+    Model.findById({ _id: params.id }, (err, userData) => {
+        if (err) res.status(500).send({ msg: 'Internal error' });
+        else if (!userData)
+            res.status(404).send({ msg: 'User not found' });
+        else {
+            let user = userData;
+
+            if (req.files) {
+                const filePath = req.files.avatar.path;
+                const fileSplit = filePath.split('\\');
+                const fileName = fileSplit[1];
+
+                const extSplit = filePath.split('.');
+                const fileExt = extSplit[1];
+
+                if (fileExt !== 'png' && fileExt !== 'jpg')
+                    res.status(400).send({
+                        msg: 'Invalid file extension'
+                    });
+                else {
+                    user.avatar = fileName;
+                    Model.findOneAndUpdate({ _id: params.id },
+                        user,
+                        (err, userResult) => {
+                            if (err)
+                                res.status(500).send({
+                                    msg: 'Internal Error'
+                                });
+                            else if (!userResult)
+                                res.status(404).send({
+                                    msg: 'User not found'
+                                });
+                            else
+                                res.status(200).send({
+                                    msg: 'avatar update'
+                                });
+                        }
+                    );
+                }
+            }
+        }
+    });
+}
+
+function getAvatar(req, res) {
+    const { avatarName } = req.params;
+    const filePath = `./uploads/${avatarName}`;
+
+    fs.stat(filePath, (err, stat) => {
+        console.log(filePath);
+        if (err) {
+            res.status(404).send('avatar not found');
+        } else {
+            res.sendFile(path.resolve(filePath));
+        }
+    });
+}
+
 module.exports = {
     register,
     login,
-    protected
+    protected,
+    uploadAvatar,
+    getAvatar
 };

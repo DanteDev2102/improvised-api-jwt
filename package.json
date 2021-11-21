@@ -1,22 +1,23 @@
 {
-  "name": "node-express",
-  "version": "0.0.1",
-  "description": "Rest API Curso",
-  "main": "index.js",
-  "author": "Agustín Navarro Galdon",
-  "license": "MIT",
-  "scripts": {
-    "start": "node index.js",
-    "dev": "nodemon index.js"
-  },
-  "dependencies": {
-    "bcryptjs": "^2.4.3",
-    "express": "^4.17.1",
-    "jsonwebtoken": "^8.5.1",
-    "moment": "^2.29.1",
-    "mongoose": "^5.13.3"
-  },
-  "devDependencies": {
-    "nodemon": "^2.0.12"
-  }
+    "name": "node-express",
+    "version": "0.0.1",
+    "description": "improvided api auth jwt",
+    "main": "index.js",
+    "author": "DanteDev2102",
+    "license": "MIT",
+    "scripts": {
+        "start": "node index.js",
+        "dev": "nodemon index.js"
+    },
+    "dependencies": {
+        "bcryptjs": "^2.4.3",
+        "connect-multiparty": "^2.2.0",
+        "express": "^4.17.1",
+        "jsonwebtoken": "^8.5.1",
+        "moment": "^2.29.1",
+        "mongoose": "^5.13.3"
+    },
+    "devDependencies": {
+        "nodemon": "^2.0.12"
+    }
 }

@@ -1,13 +1,15 @@
 const mongoose = require('mongoose');
 const app = require('./app');
 const port = process.env.PORT || 3000;
-const urlMongoDb = 'mongodb://127.0.0.1:27017/db_auth';
+const urlMongoDb =
+    process.env.URL_DB || 'mongodb://127.0.0.1:27017/db_auth';
 
 mongoose.connect(
     urlMongoDb, {
         useNewUrlParser: true,
         useUnifiedTopology: true,
-        useFindAndModify: false
+        useFindAndModify: false,
+        useCreateIndex: true
     },
     (err, res) => {
         try {
